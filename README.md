@@ -200,6 +200,10 @@ Finally, you can run any of the benchmarks you have compiled by running the syst
 
 Link to paper?
 
+## Writing gem5-SALAM Benchmarks?
+
+Link to other markdown file?
+
 ## Full-system OS Simulation ##
 
 Please download the latest version of the Linux Kernel for ARM from the [gem5 ARM kernel page](http://gem5.org/ARM_Kernel).
