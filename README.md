@@ -4,9 +4,10 @@ gem5-SALAM (System Architecture for LLVM-based Accelerator Modeling), is a novel
 
 *For more information on gem5-SALAM's internal design, please see the paper under the Resources section of this readme.*
 
+**Please note that Ubuntu 20.04 is not currently supported**
+
 # Requirements
 
-- Ubuntu 18.04
 - gem5 dependencies
 - LLVM-3.8.1
 - Frontend LLVM compiler for preferred development language (eg. clang for C)
@@ -20,7 +21,7 @@ gem5-SALAM (System Architecture for LLVM-based Accelerator Modeling), is a novel
 #### GCC (The Compiler used)
 
 ``` bash
-sudo apt install build-essential
+sudo apt install build-essential m4
 ```
 
 #### SCons (Build Environment)
@@ -38,7 +39,7 @@ sudo apt install python-dev
 #### Protobuf (Used for trace playback and generation)
 
 ```bash
-sudo apt-get install libprotobuf-dev python-protobuf protobuf-compiler libgoogle-perftools-dev\
+sudo apt-get install libprotobuf-dev python-protobuf protobuf-compiler libgoogle-perftools-dev
 ```
 
 ### Recommended
@@ -175,17 +176,17 @@ In order to use the system validation benchmarks, it is required to have the ARM
 sudo apt-get install gcc-arm-none-eabi
 ```
 
+You will also need set an environment variable named "M5_PATH" to your gem5-SALAM path.
+
+```bash
+export M5_PATH=/path/to/gem5-SALAM
+```
+
 Next, compile your desired example. 
 
 ```bash
 cd $M5_PATH/benchmarks/sys_validation/[benchmark]
 make
-```
-
-In order to use the system validation script provided, you will also need set an environment variable named "M5_PATH" to your gem5-SALAM path.
-
-```bash
-export M5_PATH=/path/to/gem5-SALAM
 ```
 
 Finally, you can run any of the benchmarks you have compiled by running the system validation script.
