@@ -4,6 +4,8 @@ Take some pictures from the paper. Object overview for sure. If anything relevan
 
 For GEMM:  File generated from sys_validation. The .dot file 
 
+[TOC]
+
 # Writing the accelerator code
 
 In this example we want to design an accelerator for a generic matrix multiply operation (GEMM). This example has already created in **benchmarks/sys_validation/gemm** and will be referenced throughout this guide. It contains a folder for accelerator code (hw) and a folder for the host code (sw). 
@@ -36,47 +38,137 @@ In the top.c we begin with a declaration having 3 addresses passed to our Top ac
 
 Additionally, we setup a series of static addresses (Lines 8-12) associated with the MMRs of the GEMM accelerator so that the Top accelerator can invoke and control those. 
 
+```c
+volatile uint8_t  * GEMMFlags  = (uint8_t *)GEMM;
+volatile uint8_t  * DmaFlags   = (uint8_t  *)(DMA);
+volatile uint64_t * DmaRdAddr  = (uint64_t *)(DMA+1);
+volatile uint64_t * DmaWrAddr  = (uint64_t *)(DMA+9);
+volatile uint32_t * DmaCopyLen = (uint32_t *)(DMA+17)
+```
+
 We then set the MMRs of the DMA to perform the memory copy between DRAM and the scratchpad memory (Lines 16-28). 
+
+```c
+//Transfer Input Matrices
+//Transfer M1
+*DmaRdAddr  = m1_addr;
+*DmaWrAddr  = M1ADDR;
+*DmaCopyLen = mat_size;
+*DmaFlags   = DEV_INIT;
+//Poll DMA for finish
+while ((*DmaFlags & DEV_INTR) != DEV_INTR);
+//Transfer M2
+*DmaRdAddr  = m2_addr;
+*DmaWrAddr  = M2ADDR;
+*DmaCopyLen = mat_size;
+*DmaFlags   = DEV_INIT;
+//Poll DMA for finish
+while ((*DmaFlags & DEV_INTR) != DEV_INTR);
+```
 
 After copying our two input matrices we invoke the GEMM accelerator and wait for it to finish computation (Lines 31-33). 
 
+```c 
+//Start the accelerated function
+*GEMMFlags = DEV_INIT;
+//Poll function for finish
+while ((*GEMMFlags & DEV_INTR) != DEV_INTR);
+```
+
 After the computation has completed, we write back the resulting matrix from the scratchpad memory to system memory (Lines 36-41).
+
+```c
+//Transfer M3
+*DmaRdAddr  = M3ADDR;
+*DmaWrAddr  = m3_addr;
+*DmaCopyLen = mat_size;
+*DmaFlags   = DEV_INIT;
+//Poll DMA for finish
+while ((*DmaFlags & DEV_INTR) != DEV_INTR);
+```
+
+The completed code can be found in top.c, which is stored under **gemm/hw/top.c**
 
 ## INI files
 
-For each of our accelerators we need to geneerate an ini file feel free to use examples from the existing benchmarks. Here we can define the number of cycles for each IR instruction. As well as provide any limitations on the number of FUs associated with IR instructions. Additionally we have options for setting the FU clock periods, controls for pipelining of the accelerator, importantly, under ACC config, we set MMR specific details such as the size of the flags register, if it has an addit, what its interupt line number will be as well as the accelerator clock. 
+For each of our accelerators we need to generate an INI file. In each INI file we can define the number of cycles for each IR instruction and provide any limitations on the number of Functional Units (FUs) associated with IR instructions. Additionally, there are options for setting the FU clock periods and controls for pipelining of the accelerator. Below is an example with a few IR instructions and their respective cycle counts:
 
-Under memory if we want to simplify, you can define memory address of scratchpad, size, response latency and number of ports. 
+```ini
+[CycleCounts]
+counter = 1
+gep = 0
+phi = 0
+select = 1
+ret = 1
+br = 0
+switch = 1
+indirectbr = 1
+invoke = 1
+```
 
-Additionally, if we want the accelerator to verify that memory exists in the scratchpad prior to accessing the scratchpad we can set ready mode to true. 
+Importantly, under the AccConfig section, we set MMR specific details such as the size of the flags register, memory address, interrupt line number, and the accelerator's clock. 
+
+```ini
+[AccConfig]
+flags_size = 1
+config_size = 0
+int_num = -1
+clock_period = 10
+premap_data = 0
+data_bases = 0
+```
+
+In the Memory section, you can define the scratchpad's memory address, size, response latency and number of ports. Also, if you want the accelerator to verify that memory exists in the scratchpad prior to accessing the scratchpad we can set ready mode to true. 
+
+```ini
+[Memory]
+addr_range = 0x2f100000
+size = 98304
+latency = 2ns
+ports = 4
+ready_mode = True
+reset_on_private_read = False
+```
 
 Lastly, we need to set the memory address under CommInterface of our MMR for the accelerator as well as the overall size of the MMR that account for all variables that need to be passed, 8 bytes per variable, and flags.
 
+```ini
+[CommInterface]
+pio_addr = 0x2f000019
+pio_size = 1
+```
+
 # Writing the host code
 
-In our example we're using the baremetal kernel. So we need to have the load file, assembly file (cpu register setup for things like interupt handlers),  and generate elf file. 
+In this example we are using a bare metal kernel. This means that we will have a load file, assembly file,  and must generate ELF files. 
 
-In boot code we provide link with isr (isr.c) to interact with  top module acc
+In our boot code, we setup an Interrupt Service Routine (ISR) in **isr.c** to interact with our Top accelerator.
 
-Main host code is in main.cpp where we start by created and filling out our matrices for the gemm operation. We then pass the addresses of those matrices to the acc via its MMRs and invoce the acc. Lines 36-38 we pass addresses of matrices to the acc. Line 40 we invoke the acc. Since this is an interuptting system you can do anything in the meantime, but we have nothing to do until our task is completed. Once done We will fire out of waiting time and read back results for evalutation. 
+## main.cpp
 
-m5_dumpstats Will tell gem5 to dump statistics it has been tracking
+In our main software file we start by creating and filling out our matrices for the GEMM operation. This is accomplished with the genData function defined in **bench.h**. We then pass the addresses of those matrices to the accelerator via its MMRs and invoke the accelerator (Lines 36-40). 
 
-m5_exit closes the sim
+```c
+*val_a = (uint32_t)(void *)m1;
+*val_b = (uint32_t)(void *)m2;
+*val_c = (uint32_t)(void *)m3;
+// printf("%d\n", *top);
+*top = 0x01;
+```
 
-The statistics associated with the acc will automatically dump to stdout when the acc finishes executing.
+Since this is an interrupting system it would be possible to perform other operations while the device is not finished, however; in this example there is nothing to do until our task is completed. 
 
-we provide a run script for all of this. With our systemValidation.sh. 
+Once the accelerator is done, we will read back the results for evaluation. The verification for the results can be seen in lines 44-75. We will also utilize the m5_dump_stats function to tell gem5 to output statistics it has been tracking, and m5_exit to close out the simulation. The statistics associated with the accelerator will automatically dump to stdout when the it finishes executing.
 
-The actual run command is defined under the RUN_SCRIPT variable. 
-
-vadd is good for streaming dma
+Please note that a run script is provided for all of the System Validation benchmarks. It is located at **gem5-SALAM/systemValidation.sh**. Usage instructions for this script are provided in the README. 
 
 # Compiling the Benchmark
 
 ### Hardware Makefile
 
-Once the two accelerators have been written,  you will want to invoke the clang compiler to generate the LLVM Intermediate Representation (IR). To do this an example Makefile has also been provided. In the Makefile we compile our accelerators to IR, then we pass that through the LLVM optimizer with Level 1 optimizations and disable the subsequent object file to get the human readable IR.
+Once the two accelerators have been written,  you will want to invoke the clang compiler to generate the LLVM Intermediate Representation (IR). 
+
+To do this an example Makefile has also been provided. In the Makefile we compile our accelerators to IR, then we pass that through the LLVM optimizer with Level 1 optimizations and disable the subsequent object file to get the human readable IR.
 
 ```makefile
 TARGET=gemm.ll top.ll
@@ -96,12 +188,10 @@ This Makefile is stored in the accelerator code folder (hw).
 
 ### Software Makefile
 
-
-
 ```makefile
 include ../../../common/Makefile
 
-OBJS         = boot.o ../../../common/syscalls.o main.o isr.o
+OBJS = boot.o ../../../common/syscalls.o main.o isr.o
 
 main.elf: $(OBJS) $(LNK_SCRIPT) Makefile
 	$(CC) $(LNK_FILE_OPT) -o $@ $(OBJS) $(LNK_OPT)
@@ -163,7 +253,11 @@ the system dma port is connected to the coherency bus which gives master access 
 
 pio port is connected to top since it is the only one it is interacting with, the dma
 
-***Make own memory space for accelerator cluster.*** 
+***Make own memory space for accelerator cluster.***
+
+Once you are able to run things (system diagram, output , provided you installed) go to BM_ARM_OUT/sys_validation/gemm
+
+**GEMM System Diagram**
 
 
 

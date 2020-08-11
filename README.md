@@ -195,21 +195,9 @@ Finally, you can run any of the benchmarks you have compiled by running the syst
 ./systemValidation.sh -b [benchmark]
 ```
 
+If you would like to see the gem5-SALAM command created by the shell file you would just need to inspect the RUN_SCRIPT variable in the shell file. 
+
 # Resources
-
-## gem5-SALAM Paper
-
-Link to paper?
-
-## Writing gem5-SALAM Benchmarks?
-
-Link to other markdown file?
-
-## Full-system OS Simulation ##
-
-Please download the latest version of the Linux Kernel for ARM from the [gem5 ARM kernel page](http://gem5.org/ARM_Kernel).
-You will also need the [ARM disk images](http://www.gem5.org/dist/current/arm/) for full system simulation.
-Devices operate in the physical memory address space.
 
 ## gem5 Documentation
 
@@ -217,7 +205,17 @@ https://www.gem5.org/documentation/
 
 ## gem5 Tutorial
 
-The gem5 documentation has a [tutorial for working with gem5](http://learning.gem5.org/book/index.html#) that will help get you started with the basics of creating your own sim objects.
+The gem5 documentation has a [tutorial for working with gem5](http://learning.gem5.org/book/index.html#) that will help get you started with the basics of creating your own sim objects..
 
-# gem5-SALAM Organization?
+## Writing a GEMM Benchmark
+
+Link goes here
+
+## Full-system OS Simulation ##
+
+Please download the latest version of the Linux Kernel for ARM from the [gem5 ARM kernel page](http://gem5.org/ARM_Kernel).
+You will also need the [ARM disk images](http://www.gem5.org/dist/current/arm/) for full system simulation.
+Devices operate in the physical memory address space.
+
+
 
