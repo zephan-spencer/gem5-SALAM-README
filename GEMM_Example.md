@@ -257,4 +257,4 @@ Once you are able to run things (system diagram, output , provided you installed
 
 
 
-<img src="https://raw.githubusercontent.com/clonetrooper67/gem5-SALAM-README/master/GEMM_ACC.png" style="zoom: 50%;" />
+<img src="https://raw.githubusercontent.com/clonetrooper67/gem5-SALAM-README/master/GEMM_ACC.png" style="zoom: 33%;" />
