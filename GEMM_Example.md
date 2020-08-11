@@ -167,13 +167,13 @@ These functions are defined in **src/hwacc/AccCluster.py**
 
 ### Adding Accelerators to the Cluster
 
-#### Top
+### Top
 
 First, we are going to create a CommInterface (Line 30) which is the communications portion of our Top accelerator. We will then configure Top and generate its LLVM interface by passing CommInterface, a config file, and an IR file, to AccConfig (Line 31). This will generate the LLVM interface, configure any hardware limitations, and will establish the static CDFG.
 
 We then connect the accelerator to the cluster (Line 32). This will attach the PIO port of the accelerator to the cluster's local bus that is associated with MMRs. 
 
-#### Bench
+### Bench
 
 For our next accelerator, our benchmark, we follow the same steps. 
 
