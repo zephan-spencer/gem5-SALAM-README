@@ -205,7 +205,7 @@ https://www.gem5.org/documentation/
 
 The gem5 documentation has a [tutorial for working with gem5](http://learning.gem5.org/book/index.html#) that will help get you started with the basics of creating your own sim objects.
 
-## Writing a gem-SALAM Benchmark
+## Building and Integrating Accelerators in gem5-SALAM
 
 We have written a guide on how to create the GEMM system validation example. This will help you get started with creating your own benchmarks and systems. It can be viewed [here](https://github.com/clonetrooper67/gem5-SALAM-README/blob/master/GEMM_Example.md).
 
