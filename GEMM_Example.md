@@ -1,22 +1,21 @@
-
-
-Take some pictures from the paper. Object overview for sure. If anything relevant for the gemm example take it.
-
-For GEMM:  File generated from sys_validation. The .dot file 
-
-[TOC]
-
-# Writing the accelerator code
+# Writing the Accelerator Code
 
 In this example we want to design an accelerator for a generic matrix multiply operation (GEMM). This example has already created in **benchmarks/sys_validation/gemm** and will be referenced throughout this guide. It contains a folder for accelerator code (hw) and a folder for the host code (sw). 
 
-When creating your accelerator there are a few considerations to be made. These include what kind of parallelism are you desiring, power consumption, and target area. 
+When creating your accelerator there are a many considerations to be had. These include:
 
-**how do you want to integrate it into the system, how are you going to feed it data, is it going to be coupled in memory, does it need DMAs? How do you want to control the accelerator?** 
+- What kind of parallelism are you desiring
+- Desired power consumption
+- Target area. 
+- How to integrate it into the system 
+- How to receive data
+- Is it going to be coupled in main memory
+- Does the accelerator need DMAs
+- How to control the accelerator
 
-In this example, we are going to design a highly parallel accelerator that is loosely coupled in memory and control. 
+In this example, we are going to design a highly parallel accelerator that is loosely coupled in memory and control. It will also utilize a DMA for memory transfers between the accelerator's scratchpad memory, and main memory.
 
-For our accelerator code we have two files. top.c manages the GEMM accelerator and DMAs, and gemm.c includes our algorithm with any compiler optimizations that we want. 
+Our accelerator code has two main files. top.c manages the GEMM accelerator and DMAs. While gemm.c includes our algorithm with any compiler optimizations that we want. 
 
 ## gemm.c 
 
@@ -202,15 +201,7 @@ The ports attached on lines 67-69 are described below:
 - dma: This port provides master access to the overall system. This is achieved by connecting the port to the coherency bus.
 - pio: This port is associated with the MMR and gives other devices control of the DMA. In this example, the PIO port is connected to the Top accelerator since it is the only device interacting with the DMA.
 
-Once you are able to run things (system diagram, output , provided you installed) go to **BM_ARM_OUT/sys_validation/gemm**
-
-**GEMM System Diagram**
-
-
-
-<img src="https://raw.githubusercontent.com/clonetrooper67/gem5-SALAM-README/master/GEMM_ACC.png" style="zoom: 50%;" />
-
-# Writing the host code
+# Writing the Host Code
 
 In this example we are using a bare metal kernel. This means that we will have a load file, assembly file,  and must generate ELF files for execution.
 
@@ -257,3 +248,13 @@ clean:
 ```
 
 This Makefile is stored in the accelerator code folder (hw).
+
+# Running the Benchmark
+
+Once you are able to run things (system diagram, output , provided you installed) go to **BM_ARM_OUT/sys_validation/gemm**
+
+**GEMM System Diagram**
+
+
+
+<img src="https://raw.githubusercontent.com/clonetrooper67/gem5-SALAM-README/master/GEMM_ACC.png" style="zoom: 50%;" />

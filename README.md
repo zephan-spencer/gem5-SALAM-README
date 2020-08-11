@@ -2,8 +2,6 @@
 
 gem5-SALAM (System Architecture for LLVM-based Accelerator Modeling), is a novel system architecture designed to enable LLVM-based modeling and simulation of custom hardware accelerators.
 
-*For more information on gem5-SALAM's internal design, please see the paper under the Resources section of this readme.*
-
 **Please note that Ubuntu 20.04 is not currently supported**
 
 # Requirements
@@ -205,11 +203,11 @@ https://www.gem5.org/documentation/
 
 ## gem5 Tutorial
 
-The gem5 documentation has a [tutorial for working with gem5](http://learning.gem5.org/book/index.html#) that will help get you started with the basics of creating your own sim objects..
+The gem5 documentation has a [tutorial for working with gem5](http://learning.gem5.org/book/index.html#) that will help get you started with the basics of creating your own sim objects.
 
-## Writing a GEMM Benchmark
+## Writing a gem-SALAM Benchmark
 
-Link goes here
+We have written a guide to viewing one of our system validation examples. It can be viewed [here](https://github.com/clonetrooper67/gem5-SALAM-README/blob/master/GEMM_Example.md).
 
 ## Full-system OS Simulation ##
 
