@@ -207,7 +207,7 @@ The gem5 documentation has a [tutorial for working with gem5](http://learning.ge
 
 ## Writing a gem-SALAM Benchmark
 
-We have written a guide to viewing one of our system validation examples. It can be viewed [here](https://github.com/clonetrooper67/gem5-SALAM-README/blob/master/GEMM_Example.md).
+We have written a guide on how to create the GEMM system validation example. This will help you get started with creating your own benchmarks and systems. It can be viewed [here](https://github.com/clonetrooper67/gem5-SALAM-README/blob/master/GEMM_Example.md).
 
 ## Full-system OS Simulation ##
 
