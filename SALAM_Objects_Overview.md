@@ -1,49 +1,51 @@
-comm interface
+All source code for these objects are stored in src/hwacc
 
-comminterface.py
+# CommInterface
 
-The comm interface or communications interface is the base gem5 component of an acc in gem5-SALAm. It provides programmability as well as system memory access to the acc. Also provides mechanisisms for sync including memory interupt lines. Memory map for comm interface is broken into three sections
+The communications interface is the base gem5 component of an accelerator in gem5-SALAM. It provides programmability as well as system memory access to the accelerator. It also provides mechanisms for synchronization  including memory interrupt lines. 
 
-- Flags: Provide runtime status information as well as switches for invoking
-- Config: Currenlty do not do anything but are here for extended versions 
-- Variable: Addresses for runtime variables or values that will be pulled upon invocation. 
+The memory map for the CommInterface object is broken into three sections:
 
-Ports: 
+- Flags: Provides runtime status information and switches for invoking the interface
+- Config: Currently has no function, but is reserved for a future version 
+- Variables: Addresses for runtime variables or values that will be pulled upon invocation. 
 
-- PIO: PIO port connects to mmrs and provides external devices the ability to program the comm interface
-- Local Ports: Provide access to other devices within an ACC's local cluster. 
-- ACP Ports: Provide access to devices outside of the ACC's cluster.
+## Ports: 
 
-Access Control Ports:
+- PIO: Connects to MMRs and provides external devices the ability to program the comm interface
+- Local Ports: Provides access to other devices within an accelerator's local cluster 
+- ACP Ports: Provides access to devices outside of the accelerator's local cluster.
 
-- Stream Ports: implement the axi-stream-like paradigm that limits read and write to data avalibility. Used in producer-consumer schemes with other devices using stream-buffers or stream-dmas. 
-- SPM Ports: Provide access to scratchpads using the additional sync controls provided by the scratchpad memory.
+## Access Control Ports:
 
-llvminterface
+- Stream Ports: Implements an AXI-stream like paradigm that limits read and write to data availability. It can be used in producer-consumer schemes with other devices using StreamBuffers or StreamDMAs. 
+- SPM Ports: Provides access to scratchpads using the additional synchronization controls provided by the scratchpad memory.
 
-Represents the datapath of the acc. That is what parses the llvm ir file to generate the hardware datapath and then generates and executes the LLVM cdfg using runtime data provided by the comm interface. 
+# LLVMInterface
 
-Acc cluster
+The LLVM Interface represents the data path of the accelerator. It is what parses the LLVM IR file to generate the hardware data path and then generates and executes the LLVM control and data flow graph (CDFG) using runtime data provided by the CommInterface. 
+
+# AccCluster
 
 Optional sim object useful for organizing acclerators as well as resources shared between accs. Provides utilities for connecting accs and other shared acc resources into the larger system. 
 
-scratchpadmemory
+# ScratchpadMemory
 
 Custom fast access memory for accelerators that includes access syncronization mechanizems (ready mode).  When access sync is activated accs will not be able to access data that
 
 Additional controls will be placed on reads and writes to the scratchpad in order to implement various sync mechanisms.
 
-noncoherentdma 
+# NoncoherentDma
 
 Provides memory to memory dma transfer. Useful copying data to and from system memory and scratchpads. The MMR layout of the noncoherentdma is descriped in noncoherentdma.hh.
 
-stream dma
+# StreamDma
 
 The stream dma provides dma access between traditional memory objects and scratchpads and an AXI-stream like interface.
 
 Supports auto-play features commonly found in video DMAs. Memory map is defined in streamdma.hh 
 
-stream buffer
+# StreamBuffer
 
 Small FIFO buffer that enables AXI-Stream like communication between devices. 
 
