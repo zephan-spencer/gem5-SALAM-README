@@ -233,28 +233,7 @@ Once the two accelerators have been written, you will want to invoke the clang c
 
 To do this an example Makefile has also been provided. In the Makefile we compile our accelerators to IR, then we pass that through the LLVM optimizer with Level 1 optimizations and disable the subsequent object file to get the human readable IR.
 
-```makefile
-TARGET=gemm.ll top.ll
-%.o : %.c
-	clang -emit-llvm -c -o $@ $<
-%.bc : %.o
-	opt -O1 -mem2reg -simplifycfg -loops -loop-unroll -o $@ $<
-%.ll : %.bc
-	llvm-dis -o $@ $<
-build : $(TARGET)
-
-clean:
-	rm -f *.ll
-```
-
-This Makefile is stored in the accelerator code folder (hw).
-
-# Running the Benchmark
-
-Once you are able to run things (system diagram, output , provided you installed) go to **BM_ARM_OUT/sys_validation/gemm**
-
-**GEMM System Diagram**
+Finally, to compile your host code a similar Makefile is provided. Simply run both Makefiles and the benchmark will be ready to run.
 
 
 
-<img src="https://raw.githubusercontent.com/clonetrooper67/gem5-SALAM-README/master/GEMM_ACC.png" style="zoom: 33%;" />
