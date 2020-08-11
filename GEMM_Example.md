@@ -167,3 +167,4 @@ pio port is connected to top since it is the only one it is interacting with, th
 
 
 
+<img src="https://raw.githubusercontent.com/clonetrooper67/gem5-SALAM-README/master/GEMM_ACC.png" style="zoom: 50%;" />
