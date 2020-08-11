@@ -227,13 +227,9 @@ Please note that a run script is provided for all of the System Validation bench
 
 # Compiling the Benchmark
 
-### Hardware Makefile
-
 Once the two accelerators have been written, you will want to invoke the clang compiler to generate the LLVM Intermediate Representation (IR). 
 
 To do this an example Makefile has also been provided. In the Makefile we compile our accelerators to IR, then we pass that through the LLVM optimizer with Level 1 optimizations and disable the subsequent object file to get the human readable IR.
 
 Finally, to compile your host code a similar Makefile is provided. Simply run both Makefiles and the benchmark will be ready to run.
-
-
 
