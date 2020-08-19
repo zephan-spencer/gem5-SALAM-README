@@ -2,15 +2,15 @@
 
 gem5-SALAM (System Architecture for LLVM-based Accelerator Modeling), is a novel system architecture designed to enable LLVM-based modeling and simulation of custom hardware accelerators.
 
-**Please note that Ubuntu 20.04 is not currently supported**
-
 # Requirements
+
+**Please note that Ubuntu 20.04 is not currently supported**
 
 - gem5 dependencies
 - LLVM-3.8.1
 - Frontend LLVM compiler for preferred development language (eg. clang for C)
 
-# gem5-SALAM Setup | (Ubuntu 18.04)
+# gem5-SALAM Setup
 
 ## Dependencies for gem5-SALAM
 
