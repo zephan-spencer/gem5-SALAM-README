@@ -288,11 +288,43 @@ boot.o: Makefile
 
 ## Benchmark Output
 
+This section concerns the output of a benchmark after is has already been run. The system validation script will be used. You can refer to [here](https://github.com/clonetrooper67/gem5-SALAM-README/blob/master/README.md#system-validation-examples) in the README for a usage guide. 
+
+In gem5-SALAM when a benchmark is run there are a few items that are of interest. 
+
+- The system's terminal output
+- Statistics
+- System Configuration Diagram
+
+Once a benchmark is run the system validation script places the system's output in **BM_ARM_OUT/sys_validation/gemm**
+
+In **stats.txt** you are able to see various gem5 stats such as memory usage, time the simulation ran, etc. This is useful for performing any analysis on the system you are working with. 
+
+```bash
+---------- Begin Simulation Statistics ----------
+host_inst_rate                     106061 # Simulator instruction rate (inst/s)
+host_mem_usage                     5712112 # Number of bytes of host memory used
+host_op_rate                       119835 # Simulator op (including micro ops) rate (op/s)
+host_seconds                       273.03 # Real time elapsed on the host
+host_tick_rate                     840130224 # Simulator tick rate (ticks/s)
+```
+
+If you have installed the [optional graphviz dependencies](https://github.com/clonetrooper67/gem5-SALAM-README#visualization) gem5-SALAM will generate a system configuration diagram when run. In our case the GEMM accelerator's diagram is stored in **config.dot** and should look like below: 
+
 <p align="center"> 
     <img width="359" height="390" src="https://github.com/clonetrooper67/gem5-SALAM-README/blob/master/GEMM_ACC.png"
 </p>
+**system.terminal** contains the simulated system's terminal output. This can be useful for viewing any issues or outputs that the actual simulation might have. An example from the GEMM benchmark is shown below:
 
-
-
-
+```bash
+Generating data
+Data generated
+Interrupt
+Interrupt finished
+Job complete
+Checking result
+Running bench on CPU
+Comparing CPU run to accelerated run
+Check Passed
+```
 

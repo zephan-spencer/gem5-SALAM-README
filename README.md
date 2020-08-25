@@ -212,11 +212,12 @@ The gem5 documentation has a [tutorial for working with gem5](http://learning.ge
 
 We have written a guide on how to create the GEMM system validation example. This will help you get started with creating your own benchmarks and systems. It can be viewed [here](https://github.com/clonetrooper67/gem5-SALAM-README/blob/master/GEMM_Example.md).
 
+## SALAM Object Overview
+
+The [SALAM Object Overview](https://github.com/clonetrooper67/gem5-SALAM-README/blob/master/SALAM_Objects_Overview.md) covers what various Sim Objects in gem5-SALAM are and their purpose.
+
 ## Full-system OS Simulation ##
 
 Please download the latest version of the Linux Kernel for ARM from the [gem5 ARM kernel page](http://gem5.org/ARM_Kernel).
 You will also need the [ARM disk images](http://www.gem5.org/dist/current/arm/) for full system simulation.
 Devices operate in the physical memory address space.
-
-
-
