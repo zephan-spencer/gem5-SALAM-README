@@ -296,7 +296,7 @@ In gem5-SALAM when a benchmark is run there are a few items that are of interest
 - Statistics
 - System Configuration Diagram
 
-Once a benchmark is run the system validation script places the system's output in **BM_ARM_OUT/sys_validation/gemm**
+Once the GEMM benchmark is run the system validation script places the system's output in **BM_ARM_OUT/sys_validation/gemm**
 
 In **stats.txt** you are able to see various gem5 stats such as memory usage, time the simulation ran, etc. This is useful for performing any analysis on the system you are working with. 
 
