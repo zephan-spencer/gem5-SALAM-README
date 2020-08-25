@@ -16,6 +16,12 @@ gem5-SALAM (System Architecture for LLVM-based Accelerator Modeling), is a novel
 
 ### Required
 
+#### All Dependencies
+
+```bash
+sudo apt install build-essential m4 scons python-dev libprotobuf-dev python-protobuf protobuf-compiler libgoogle-perftools-dev
+```
+
 #### GCC (The Compiler used)
 
 ``` bash
@@ -156,17 +162,16 @@ For more information regarding the binary types, and other build information ref
 
 To use gem5-SALAM you need to define the computation model of you accelerator in your language of choice,and compile it to LLVM IR. Any control and dataflow graph optimization (eg. loop unrolling) should be handled by the compiler. You can construct accelerators by associating their LLVM IR with an LLVMInterface and connecting it to the desired CommInterface in the gem5 memory map.
 
-Examples for system-level configuration can be found in configs/common/HWAcc.py.
+Below are some resources in the gem5-SALAM directory that can be used when getting started:
 
-Accelerator benchmarks and examples can be found in the benchmarks directory. 
-
-benchmarks/sys_validation contains examples for configuring and using gem5-SALAM with different algorithms.
-
-The benchmarks/common folder contains basic drivers and syscalls for baremetal simulation.
+- Examples for system-level configuration can be found in **configs/common/HWAcc.py**.
+- Accelerator benchmarks and examples can be found in the **benchmarks** directory. 
+- The **benchmarks/common** directory contains basic drivers and syscalls for baremetal simulation.
+- **benchmarks/sys_validation** contains examples for configuring and using gem5-SALAM with different algorithms.
 
 ## System Validation Examples
 
-The system validation examples under benchmarks/sys_validation provide good examples for how you interface with the gem5-SALAM simulation objects.
+The system validation examples under **benchmarks/sys_validation** are good examples for how you interface with the gem5-SALAM simulation objects.
 
 In order to use the system validation benchmarks, it is required to have the ARM GCC cross-compiler installed. If you didn't already install it when you setup the dependencies, you can install it in Ubuntu by running the below command:
 
@@ -174,7 +179,7 @@ In order to use the system validation benchmarks, it is required to have the ARM
 sudo apt-get install gcc-arm-none-eabi
 ```
 
-You will also need set an environment variable named "M5_PATH" to your gem5-SALAM path.
+**systemValidation.sh** requires an environment variable named **M5_PATH** to be set. You will want to point it to your gem5-SALAM path as shown below. 
 
 ```bash
 export M5_PATH=/path/to/gem5-SALAM
@@ -193,7 +198,7 @@ Finally, you can run any of the benchmarks you have compiled by running the syst
 ./systemValidation.sh -b [benchmark]
 ```
 
-If you would like to see the gem5-SALAM command created by the shell file you would just need to inspect the RUN_SCRIPT variable in the shell file. 
+If you would like to see the gem5-SALAM command created by the shell file you would just need to inspect the **RUN_SCRIPT** variable in the shell file. 
 
 # Resources
 
