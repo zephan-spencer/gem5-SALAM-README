@@ -288,3 +288,4 @@ boot.o: Makefile
 
 ## Benchmark Output
 
+![System Visualization](https://github.com/clonetrooper67/gem5-SALAM-README/blob/master/GEMM_ACC.png)
