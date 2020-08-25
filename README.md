@@ -214,7 +214,7 @@ We have written a guide on how to create the GEMM system validation example. Thi
 
 ## SALAM Object Overview
 
-The [SALAM Object Overview](https://github.com/clonetrooper67/gem5-SALAM-README/blob/master/SALAM_Objects_Overview.md) covers what various Sim Objects in gem5-SALAM are and their purpose.
+The [SALAM Object Overview](https://github.com/clonetrooper67/gem5-SALAM-README/blob/master/SALAM_Object_Overview.md) covers what various Sim Objects in gem5-SALAM are and their purpose.
 
 ## Full-system OS Simulation ##
 
