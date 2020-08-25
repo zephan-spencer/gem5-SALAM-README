@@ -16,7 +16,7 @@ gem5-SALAM (System Architecture for LLVM-based Accelerator Modeling), is a novel
 
 ### Required
 
-#### All Dependencies
+#### All Required Dependencies
 
 ```bash
 sudo apt install build-essential m4 scons python-dev libprotobuf-dev python-protobuf protobuf-compiler libgoogle-perftools-dev
@@ -134,15 +134,13 @@ Finally, update your alternatives to point to your compiled binaries. A script t
 ./update-alternatives.sh
 ```
 
-## Pulling the Repository
+# Building gem5-SALAM
 
 Once you have successfully installed all of the necessary dependencies, you can go ahead and clone the gem5-SALAM repository to begin working with it.
 
 ```bash
 git clone https://github.com/TeCSAR-UNCC/gem5-SALAM
 ```
-
-# Building gem5-SALAM
 
 When building gem5-SALAM, there are multiple different binary types that can be created. Just like in gem5 the options are debug, opt, fast, prof, and perf. 
 
