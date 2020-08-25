@@ -314,6 +314,8 @@ If you have installed the [optional graphviz dependencies](https://github.com/cl
 <p align="center"> 
     <img width="359" height="390" src="https://github.com/clonetrooper67/gem5-SALAM-README/blob/master/GEMM_ACC.png"
 </p>
+
+
 **system.terminal** contains the simulated system's terminal output. This can be useful for viewing any issues or outputs that the actual simulation might have. An example from the GEMM benchmark is shown below:
 
 ```bash
